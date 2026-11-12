@@ -334,3 +334,17 @@ footer .fnote{font-size:0.62rem;color:rgba(255,255,255,0.3);letter-spacing:0.12e
 .tx.masuk .tx-nilai{color:#4ade80}
 .tx.keluar .tx-nilai{color:#f87171}
 .tx.tf .tx-nilai{color:#7c7c8a}
+
+/* ============ BUDGET ============ */
+.bud{margin-top:16px}
+.bud:first-child{margin-top:6px}
+.bud-atas{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.bud-nm{font-size:0.76rem;font-weight:800;color:#f0f0f0}
+.bud-persen{font-size:0.72rem;font-weight:900;color:#4ade80;letter-spacing:0.02em}
+.bud-bar{height:6px;border-radius:100px;background:rgba(255,255,255,0.07);overflow:hidden}
+.bud-bar span{display:block;height:100%;border-radius:100px;background:#4ade80;transition:width .45s ease}
+.bud-bawah{display:flex;justify-content:space-between;margin-top:6px;font-size:0.66rem;font-weight:700;color:#7c7c8a}
+.bud.hampir .bud-persen,.bud.hampir .bud-sisa{color:#f0f0f0}
+.bud.hampir .bud-bar span{background:#f0f0f0}
+.bud.lewat .bud-persen,.bud.lewat .bud-sisa{color:#f87171}
+.bud.lewat .bud-bar span{background:#f87171}

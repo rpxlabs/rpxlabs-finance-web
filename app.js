@@ -266,6 +266,33 @@
         }).join('')
       : '<div class="loading">Belum ada rekening.</div>';
 
+    // budget
+    var bud = d.budget || [];
+    if (bud.length) {
+      $('budgetCard').hidden = false;
+      $('budgetList').innerHTML = bud.map(function (b) {
+        var p = Math.max(0, Math.min(b.persen || 0, 100));
+        var lewat = (b.persen || 0) > 100;
+        var kelas = lewat ? 'lewat' : ((b.persen || 0) >= 80 ? 'hampir' : '');
+        var sisaTeks = b.sisa >= 0
+          ? 'sisa ' + rp(b.sisa)
+          : 'lewat ' + rp(-b.sisa);
+        return '<div class="bud ' + kelas + '">' +
+          '<div class="bud-atas">' +
+            '<span class="bud-nm">' + esc(b.kategori) + '</span>' +
+            '<span class="bud-persen">' + (b.persen || 0) + '%</span>' +
+          '</div>' +
+          '<div class="bud-bar"><span style="width:' + p + '%"></span></div>' +
+          '<div class="bud-bawah">' +
+            '<span>' + rp(b.pakai) + ' / ' + rp(b.batas) + '</span>' +
+            '<span class="bud-sisa">' + sisaTeks + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    } else {
+      $('budgetCard').hidden = true;
+    }
+
     // kategori
     var kat = d.kategori || [];
     var katMax = kat.length ? kat[0].nilai : 1;
