@@ -270,22 +270,29 @@
     var bud = d.budget || [];
     if (bud.length) {
       $('budgetCard').hidden = false;
+      // Kategori tanpa batas (batas 0) tetap tampil: pakai + label "tanpa batas"
       $('budgetList').innerHTML = bud.map(function (b) {
-        var p = Math.max(0, Math.min(b.persen || 0, 100));
-        var lewat = (b.persen || 0) > 100;
-        var kelas = lewat ? 'lewat' : ((b.persen || 0) >= 80 ? 'hampir' : '');
-        var sisaTeks = b.sisa >= 0
-          ? 'sisa ' + rp(b.sisa)
-          : 'lewat ' + rp(-b.sisa);
+        var adaBatas = (b.batas || 0) > 0;
+        var pct = adaBatas ? (b.persen || 0) : 0;
+        var p = Math.max(0, Math.min(pct, 100));
+        var lewat = adaBatas && pct > 100;
+        var kelas = lewat ? 'lewat' : (adaBatas && pct >= 80 ? 'hampir' : (adaBatas ? '' : 'tanpabatas'));
+        var bawahKiri = adaBatas
+          ? rp(b.pakai) + ' / ' + rp(b.batas)
+          : rp(b.pakai) + ' terpakai';
+        var bawahKanan = adaBatas
+          ? (b.sisa >= 0 ? 'sisa ' + rp(b.sisa) : 'lewat ' + rp(-b.sisa))
+          : 'belum diset';
+        var kananAtas = adaBatas ? pct + '%' : '—';
         return '<div class="bud ' + kelas + '">' +
           '<div class="bud-atas">' +
             '<span class="bud-nm">' + esc(b.kategori) + '</span>' +
-            '<span class="bud-persen">' + (b.persen || 0) + '%</span>' +
+            '<span class="bud-persen">' + kananAtas + '</span>' +
           '</div>' +
           '<div class="bud-bar"><span style="width:' + p + '%"></span></div>' +
           '<div class="bud-bawah">' +
-            '<span>' + rp(b.pakai) + ' / ' + rp(b.batas) + '</span>' +
-            '<span class="bud-sisa">' + sisaTeks + '</span>' +
+            '<span>' + bawahKiri + '</span>' +
+            '<span class="bud-sisa">' + bawahKanan + '</span>' +
           '</div>' +
         '</div>';
       }).join('');
